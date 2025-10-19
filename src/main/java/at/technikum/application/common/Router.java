@@ -13,7 +13,7 @@ public class Router {
     public Optional<Controller> findController(Request request) {
         for (Route route : routes) {
             if (request.getPath().startsWith(route.getPath()) &&
-                    request.getMethod().equals(route.getMethod().getVerb())) {
+                    request.getMethod().equas(route.getMethod().getVerb())) {
                 return Optional.of(route.getController());
             }
         }
