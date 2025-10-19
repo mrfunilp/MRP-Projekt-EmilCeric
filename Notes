@@ -1,0 +1,17 @@
+Besser verstehen:
+- Bearer Token
+- SHA 256
+
+
+ToDo:
+
+- (not necessary, but professional) Set-up ConfiguratonManager and Configuration-Class
+    -> Port conncetion with external JSON-package
+    -> https://www.youtube.com/watch?v=kQ8yIpS4AX4&list=PLAuGQNR28pW56GigraPdiI0oKwcs8gglW&index=2
+
+- remove debugging
+- Why Bearer
+
+
+
+Notes:

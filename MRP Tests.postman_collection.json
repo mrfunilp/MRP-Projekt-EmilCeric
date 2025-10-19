@@ -1,0 +1,355 @@
+{
+	"info": {
+		"_postman_id": "77d58a40-d716-441c-a86f-3b6892047bab",
+		"name": "MRP Tests",
+		"description": "Complete test collection for MediaEntry, Rating and Favorites",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49379967",
+		"_collection_link": "https://eceric11-5957337.postman.co/workspace/Emil-Ceric's-Workspace~7013fcc4-a2ec-4623-839e-3003b9107b2a/collection/49379967-77d58a40-d716-441c-a86f-3b6892047bab?action=share&source=collection_link&creator=49379967"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register Test User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"Username\": \"{{test_user}}\",\n  \"Password\": \"{{test_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Test User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const responseData = pm.response.json();",
+									"    pm.collectionVariables.set(\"auth_token\", responseData.token);",
+									"    console.log(\"Token gespeichert: \" + responseData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"Username\": \"{{test_user}}\",\n  \"Password\": \"{{test_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Media Management",
+			"item": [
+				{
+					"name": "Create Movie",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const responseData = pm.response.json();",
+									"    pm.collectionVariables.set(\"media_id\", responseData.id);",
+									"    console.log(\"Media ID gespeichert: \" + responseData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Inception\",\n  \"description\": \"A thief who steals corporate secrets through dream-sharing technology\",\n  \"mediaType\": \"MOVIE\",\n  \"releaseYear\": 2010,\n  \"genres\": [\"Sci-Fi\", \"Action\", \"Thriller\"],\n  \"ageRestriction\": 12\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/media",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Series",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Stranger Things\",\n  \"description\": \"When a young boy vanishes, a small town uncovers a mystery involving secret experiments\",\n  \"mediaType\": \"SERIES\",\n  \"releaseYear\": 2016,\n  \"genres\": [\"Horror\", \"Drama\", \"Sci-Fi\"],\n  \"ageRestriction\": 16\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/media",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Game",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"The Witcher 3: Wild Hunt\",\n  \"description\": \"Action role-playing game set in an open world\",\n  \"mediaType\": \"GAME\",\n  \"releaseYear\": 2015,\n  \"genres\": [\"RPG\", \"Fantasy\", \"Action\"],\n  \"ageRestriction\": 18\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/media",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Media",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/media",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific Media",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/media/{{media_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"{{media_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Media",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Inception (Updated)\",\n  \"description\": \"Updated description for Inception movie\",\n  \"mediaType\": \"MOVIE\",\n  \"releaseYear\": 2010,\n  \"genres\": [\"Sci-Fi\", \"Action\", \"Thriller\", \"Drama\"],\n  \"ageRestriction\": 12\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/media/{{media_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"{{media_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cleanup",
+			"item": [
+				{
+					"name": "Delete Media",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/media/{{media_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"{{media_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:10001",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "test_user",
+			"value": "testuser",
+			"type": "string"
+		},
+		{
+			"key": "test_password",
+			"value": "test123",
+			"type": "string"
+		},
+		{
+			"key": "media_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "rating_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

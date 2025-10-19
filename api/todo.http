@@ -1,0 +1,7 @@
+POST http://localhost:8080/todos
+Authorization: Bearer admin-mrp-token
+
+{
+    "description": "Test",
+    "done": false
+}
