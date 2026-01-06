@@ -11,11 +11,59 @@ public class Router {
     private List<Route> routes = new ArrayList<>();
 
     public Optional<Controller> findController(Request request) {
+        String requestPath = request.getPath();
+        String requestMethod = request.getMethod();
+
+        System.out.println("Router looking for: " + requestMethod + " " + requestPath);
+
         for (Route route : routes) {
-            if (request.getPath().startsWith(route.getPath()) &&
-                    request.getMethod().equas(route.getMethod().getVerb())) {
+            String routePath = route.getPath();
+            Method routeMethod = route.getMethod();
+
+            System.out.println("  Checking route: " + routeMethod.getVerb() + " " + routePath);
+
+            if (!requestMethod.equals(routeMethod.getVerb())) {
+                continue;
+            }
+
+            if (matchesPath(routePath, requestPath)) {
+                System.out.println("  -> MATCH!");
                 return Optional.of(route.getController());
             }
+        }
+
+        System.out.println("  -> NO MATCH FOUND");
+        return Optional.empty();
+    }
+
+    private boolean matchesPath(String routePath, String requestPath) {
+        if (routePath.equals("/") && requestPath.equals("/")) {
+            return true;
+        }
+
+        String regexPath = routePath
+                .replace("/", "\\/")  // Escape forward slashes
+                .replace("{", "(?<")
+                .replace("}", ">[^\\/]+)");
+
+        // Füge ^ und $ für exakten Match hinzu
+        regexPath = "^" + regexPath + "$";
+
+        return requestPath.matches(regexPath);
+    }
+
+    public Optional<String> extractPathParameter(String routePath, String requestPath, String paramName) {
+        String regexPath = routePath
+                .replace("/", "\\/")
+                .replace("{" + paramName + "}", "(?<" + paramName + ">[^\\/]+)");
+
+        regexPath = "^" + regexPath + "$";
+
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regexPath);
+        java.util.regex.Matcher matcher = pattern.matcher(requestPath);
+
+        if (matcher.matches()) {
+            return Optional.of(matcher.group(paramName));
         }
         return Optional.empty();
     }

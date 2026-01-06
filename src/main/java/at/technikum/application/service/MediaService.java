@@ -1,62 +1,53 @@
 package at.technikum.application.service;
 
+import at.technikum.application.database.MediaRepository;
 import at.technikum.application.model.MediaEntry;
-import at.technikum.application.model.MediaType;
-import at.technikum.application.model.Rating;
+import at.technikum.application.model.MediaSearch;
+import java.util.List;
 
-import java.util.*;
-import java.util.stream.Collectors;
+public class MediaService implements MediaServiceInterface {
+    private MediaRepository mediaRepository;
 
-public class MediaService {
-    private static MediaService instance;
-
-    //Ersatz für Datenbank (temporär)
-    private Map<String, MediaEntry> mediaEntries = new HashMap<>(); // mediaId -> MediaEntry
-
-    private MediaService() {}
-
-    public static MediaService getInstance() {
-        if (instance == null) {
-            instance = new MediaService();
-        }
-        return instance;
+    public MediaService(MediaRepository mediaRepository) {
+        this.mediaRepository = mediaRepository;
     }
 
+    @Override
     public MediaEntry createMedia(MediaEntry media) {
-        mediaEntries.put(media.getId(), media);
-        return media;
-    }
-
-    public MediaEntry getMedia(String mediaId) {
-        return mediaEntries.get(mediaId);
-    }
-
-    public List<MediaEntry> getAllMedia() {
-        return new ArrayList<>(mediaEntries.values());
-    }
-
-    public MediaEntry updateMedia(String mediaId, MediaEntry updatedMedia, String username) {
-        MediaEntry existing = mediaEntries.get(mediaId);
-        if (existing == null || !existing.getCreatorUsername().equals(username)) {
-            return null;
+        if (mediaRepository.createMedia(media)) {
+            return media;
         }
+        return null;
+    }
+
+    @Override
+    public MediaEntry getMedia(String mediaId) {
+        return mediaRepository.getMediaById(mediaId);
+    }
+
+    @Override
+    public List<MediaEntry> getAllMedia() {
+        return mediaRepository.getAllMedia();
+    }
+
+    @Override
+    public MediaEntry updateMedia(String mediaId, MediaEntry updatedMedia, String username) {
         updatedMedia.setId(mediaId);
         updatedMedia.setCreatorUsername(username);
-        mediaEntries.put(mediaId, updatedMedia);
-        return updatedMedia;
-    }
 
-    public boolean deleteMedia(String mediaId, String username) {
-        MediaEntry media = mediaEntries.get(mediaId);
-        if (media == null || !media.getCreatorUsername().equals(username)) {
-            return false;
+        if (mediaRepository.updateMedia(updatedMedia)) {
+            return updatedMedia;
         }
-        mediaEntries.remove(mediaId);
-        return true;
+        return null;
     }
 
+    @Override
+    public boolean deleteMedia(String mediaId, String username) {
+        return mediaRepository.deleteMedia(mediaId, username);
+    }
 
-
-
-
+    @Override
+    public List<MediaEntry> searchMedia(MediaSearch search) {
+        return mediaRepository.searchMedia(search);
+    }
 }

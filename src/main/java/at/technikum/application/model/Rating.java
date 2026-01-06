@@ -12,7 +12,7 @@ public class Rating {
     private int likes;
 
     public Rating() {
-        this.timestamp = "jetzt";
+        this.timestamp = null; //aus mir unerklärlichen Gründen wird mein Timestamp aus dem DB Schema nicht übernommen
         this.commentConfirmed = false;
         this.likes = 0;
         this.id = generateId();

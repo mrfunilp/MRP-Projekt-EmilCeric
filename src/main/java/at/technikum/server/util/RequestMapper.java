@@ -13,13 +13,11 @@ public class RequestMapper {
     public Request fromExchange(HttpExchange exchange) {
         Request request = new Request();
 
-        // Method
+
         request.setMethod(Method.valueOf(exchange.getRequestMethod()));
 
-        // Path
         request.setPath(exchange.getRequestURI().getPath());
 
-        // Headers
         exchange.getRequestHeaders().forEach((key, values) -> {
             if (!values.isEmpty()) {
                 request.addHeader(key, values.get(0));
@@ -27,7 +25,6 @@ public class RequestMapper {
             }
         });
 
-        // Body
         try {
             String body = new BufferedReader(new InputStreamReader(exchange.getRequestBody()))
                     .lines()

@@ -1,17 +1,43 @@
-Besser verstehen:
-- Bearer Token
-- SHA 256
-
-
-ToDo:
-
-- (not necessary, but professional) Set-up ConfiguratonManager and Configuration-Class
-    -> Port conncetion with external JSON-package
-    -> https://www.youtube.com/watch?v=kQ8yIpS4AX4&list=PLAuGQNR28pW56GigraPdiI0oKwcs8gglW&index=2
-
-- remove debugging
-- Why Bearer
 
 
 
 Notes:
+
+- AuthResponse/-Request, weil:
+
+Trennung = Bessere Sicherheit, Wartbarkeit, Erweiterbarkeit
+
+Das ist ein wichtiges Architektur-Pattern (meist "DTO Pattern" genannt)
+
+- SHA-256, weil industriestandart, kryptographisch sicher, verwendet für z.B Bitcoin etc
+
+
+-> extrem große Zahl -> gute sicherheit
+-> (theoretisch) kollisionsfrei
+-> bietet also hohe sicherheit
+
+- Application-Flow - User registrieren
+
+-> Main.java → Server Start
+
+-> Server.java → HTTP Server
+
+-> Handler.java → Request Empfang
+
+-> RequestMapper.java → Request Mapping
+
+-> MainApplication.java → Application Router
+
+-> Router.java → Route Matching
+
+-> UserController.java → Endpoint Handling
+
+-> AuthService.java → Business Logic
+
+-> UserRepository.java → Datenbank Zugriff
+
+-> DatabaseConnection.java → DB Verbindung
+
+-> UserController.java → Response Erstellung
+
+-> Handler.java → Response Sendung

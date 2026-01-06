@@ -1,55 +1,45 @@
 package at.technikum.application.service;
 
+import at.technikum.application.database.UserRepository;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class AuthService {
-    private static AuthService instance;
+public class AuthService implements AuthServiceInterface {
+    private UserRepository userRepository;
+    private Map<String, String> tokens = new HashMap<>(); // token -> username
 
-    private static Map<String, String> users = new HashMap<>(); // username -> hashedPassword
-    private static Map<String, String> tokens = new HashMap<>(); // token -> username
-
-    private AuthService() {}
-
-    public static AuthService getInstance() {
-        if (instance == null) {
-            instance = new AuthService();
-        }
-        return instance;
+    public AuthService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
+    @Override
     public boolean register(String username, String password) {
-
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             return false;
         }
 
-        if (users.containsKey(username)) {
+        if (userRepository.userExists(username)) {
             return false;
         }
 
         String hashedPassword = hashPassword(password);
-
-        users.put(username, hashedPassword);
-        return true;
+        return userRepository.createUser(username, hashedPassword);
     }
 
+    @Override
     public String login(String username, String password) {
-
         if (username == null || password == null) {
             return null;
         }
 
-        String storedHash = users.get(username);
-
+        String storedHash = userRepository.getPasswordHash(username);
         if (storedHash == null) {
             return null;
         }
 
         String inputHash = hashPassword(password);
-
         if (!storedHash.equals(inputHash)) {
             return null;
         }
@@ -59,15 +49,22 @@ public class AuthService {
         return token;
     }
 
-    public boolean validateToken(String token) {
-        boolean isValid = token != null && tokens.containsKey(token);
-        return isValid;
+    @Override
+    public boolean userExists(String username) {
+        return userRepository.userExists(username);
     }
 
+    @Override
+    public boolean validateToken(String token) {
+        return tokens.containsKey(token);
+    }
+
+    @Override
     public String getUsernameFromToken(String token) {
         return tokens.get(token);
     }
 
+    @Override
     public void logout(String token) {
         tokens.remove(token);
     }

@@ -23,7 +23,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"Username\": \"{{test_user}}\",\n  \"Password\": \"{{test_password}}\"\n}"
+							"raw": "{\n  \"username\": \"d\",\n  \"password\": \"d\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/users/register",
@@ -51,7 +51,9 @@
 									"    console.log(\"Token gespeichert: \" + responseData.token);",
 									"}"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -65,7 +67,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"Username\": \"{{test_user}}\",\n  \"Password\": \"{{test_password}}\"\n}"
+							"raw": "{\n  \"username\": \"d\",\n  \"password\": \"d\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/users/login",
@@ -98,7 +100,9 @@
 									"    console.log(\"Media ID gespeichert: \" + responseData.id);",
 									"}"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -111,7 +115,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer {{auth_token}}"
+								"value": "{{auth_token}}"
 							}
 						],
 						"body": {
@@ -141,7 +145,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer {{auth_token}}"
+								"value": "{{auth_token}}"
 							}
 						],
 						"body": {
@@ -171,7 +175,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer {{auth_token}}"
+								"value": "{{auth_token}}"
 							}
 						],
 						"body": {
@@ -197,7 +201,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{auth_token}}"
+								"value": "{{auth_token}}"
 							}
 						],
 						"url": {
@@ -219,7 +223,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{auth_token}}"
+								"value": "{{auth_token}}"
 							}
 						],
 						"url": {
@@ -246,7 +250,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer {{auth_token}}"
+								"value": "{{auth_token}}"
 							}
 						],
 						"body": {
@@ -278,7 +282,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{auth_token}}"
+								"value": "{{auth_token}}"
 							}
 						],
 						"url": {
@@ -301,7 +305,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{auth_token}}"
+								"value": "{{}}"
 							}
 						],
 						"url": {
@@ -312,6 +316,447 @@
 							"path": [
 								"users",
 								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Extra Fuctionalities",
+			"item": [
+				{
+					"name": "Check Someones Stats",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/1/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Own Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search/Filter",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"genre\": \"Action\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/media/search",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Leaderboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/leaderboard",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"leaderboard"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ratings & Favorites",
+			"item": [
+				{
+					"name": "Ratings - Create Rating",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mediaId\": \"{{media_id}}\",\n    \"stars\": 2,\n    \"comment\": \"Great movie!\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ratings - Create Rating without Comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mediaId\": \"{{mediaId}}\",\n    \"stars\": 5\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ratings - Get Ratings for Media",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/media{{media_id}}/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"media{{media_id}}",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ratings - Like a Rating",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/ratings/{{rating_id}}/like",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ratings",
+								"{{rating_id}}",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ratings - Confirm Comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/ratings/{{rating_id}}/confirm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ratings",
+								"{{rating_id}}",
+								"confirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ratings - Update Rating",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"stars\": 3,\n    \"comment\": \"Updated review, not that great\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/ratings/{{rating_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ratings",
+								"{{rating_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ratings - Delete Rating",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/ratings/{{rating_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ratings",
+								"{{rating_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Favorites - Add to Favorites",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/media/{{media_id}}/favorite",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"media",
+								"{{media_id}}",
+								"favorite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Favorites - Check if Favorite",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/media/{{media_id}}/favorite",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"media",
+								"{{media_id}}",
+								"favorite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Favorites - Get User Favorites",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/favorites",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Favorites - Remove from Favorites",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/media/{{media_id}}/favorite",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"media",
+								"{{media_id}}",
+								"favorite"
 							]
 						}
 					},
